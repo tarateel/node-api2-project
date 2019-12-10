@@ -40,7 +40,6 @@ router.post('/', (req, res) => {
   }
 });
 
-
 // fetch all posts
 router.get('/', (req, res) => {
   // request an array of all posts in the db
@@ -58,6 +57,32 @@ router.get('/', (req, res) => {
   });
 });
 
+// fetch a specified post findById()
+router.get('/:id', (req, res) => {
+  // request a post by id parameter
+  const { id } = req.params;
+  // if post id is not found
+  if (!id) { 
+    // cancel, respond with 'not found' status code and a JSON message
+    return res.status(404).json({
+      message: "The post with the specified ID does not exist."
+    })    
+      // otherwise
+    } else {
+      posts.findById(id)
+      .then(post => {
+        // respond with 'OK' status code and a JSON message
+        res.status(200).json(post)
+      })
+      // if there is an error fetching the post
+      .catch(err => {
+        // respond with 'server error' status code and a JSON message
+        return res.status(500).json({
+          error: "The post information could not be retrieved."
+        })
+      });
+    };
+});
 
 
 module.exports = router;
