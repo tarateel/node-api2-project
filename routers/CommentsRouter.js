@@ -29,5 +29,23 @@ router.get('/', (req, res) => {
   })
 });
 
+// fetch a specific comment
+router.get('/:commentId', (req, res) => {
+  if (!req.params.id) {
+    return res.status(404).json({
+      message: "The post with the specified ID does not exist."
+    })
+  } else {
+    posts.findCommentById(req.params.id, req.params.commentId)
+    .then(comment => {
+      res.status(200).json(comment)
+    })
+    .catch(err => {
+      return res.status(500).json({
+        error: "The comments information could not be retrieved."
+      })
+    })
+  }
+});
 
 module.exports = router;
