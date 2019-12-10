@@ -41,5 +41,23 @@ router.post('/', (req, res) => {
 });
 
 
+// fetch all posts
+router.get('/', (req, res) => {
+  // request an array of all posts in the db
+  posts.find()
+  .then(posts => {
+    // respond with an array of posts
+    res.json(posts)
+  })
+  // if there is an error in fetching
+  .catch(err => {
+    // cancel, respond with 'server error' status code and a JSON message
+    return res.status(500).json({
+      error: "The posts information could not be retrieved."
+    })
+  });
+});
+
+
 
 module.exports = router;
