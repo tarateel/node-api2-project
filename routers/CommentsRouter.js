@@ -52,7 +52,7 @@ router.post('/', (req, res) => {
 	// Validate our data
 	if (!req.body.text) {
 		return res.status(400).json({
-			message: "Need sender and text values",
+			message: "Please provide text for the comment.",
 		})
 	} else if (!req.params.id) {
     return res.status(404).json({
@@ -61,9 +61,10 @@ router.post('/', (req, res) => {
   } else {
     const payload = {
       text: req.body.text,
+      post_id: req.params.id
     }
   
-    posts.insertComment(req.params.id, payload)
+    posts.insertComment(payload)
       .then(comment => {
         res.status(201).json(comment)
       })
